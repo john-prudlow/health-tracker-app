@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router'
 
 import Homepage from './pages/Homepage'
 
-import './App.css'
+import './style.css'
 
 function App() {
 
