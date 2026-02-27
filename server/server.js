@@ -9,18 +9,31 @@ const app = express();
 // Connect to MongoDB database
 connectDatabase();
 
-// Middleware
-// Helmet FIRST, configured for CORS
+// FORCE Render/Cloudflare to forward OPTIONS instead of auto‑handling it
+app.options('*', (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "https://health-tracker-app-frontend.onrender.com");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  return res.sendStatus(200);
+});
+
+// Helmet FIRST, configured for CORS compatibility
 app.use(helmet({
   crossOriginResourcePolicy: false,
   crossOriginOpenerPolicy: false,
   crossOriginEmbedderPolicy: false,
 }));
-// Then CORS
+
+// CORS middleware
 app.use(cors({
   origin: "https://health-tracker-app-frontend.onrender.com",
   credentials: true,
+  methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 }));
+
+// JSON parsing
 app.use(express.json());
 
 // Request logging middleware
