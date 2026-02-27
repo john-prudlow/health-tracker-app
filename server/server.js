@@ -11,7 +11,10 @@ connectDatabase();
 
 // Middleware
 app.use(cors({
-  origin: "https://health-tracker-app-frontend.onrender.com",
+  origin: [
+    "http://localhost:5173",
+    "https://health-tracker-app-frontend.onrender.com"
+  ],
   credentials: true,
 }));
 app.use(helmet());
