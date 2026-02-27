@@ -16,12 +16,13 @@ import './style.css'
 import './css/responsive.css'
 
 function App() {
+  const API_BASE = import.meta.env.VITE_API_URL;
   const [data, setData] = useState([]);
   const { token } = useContext(AuthContext);
 
   const healthData = async () => {
     try {
-      const res = await fetch('/api/data', {
+      const res = await fetch(`${API_BASE}/api/data`, {
         headers: {
           "Authorization": `Bearer ${token}`
         }
