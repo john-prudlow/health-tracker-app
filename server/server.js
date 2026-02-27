@@ -15,12 +15,24 @@ app.use(cors({
     "http://localhost:5173",
     "https://health-tracker-app-frontend.onrender.com"
   ],
+  credentials: true
+}));
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  })
+);
+app.use(express.json());
+
+app.options("*", cors({
+  origin: [
+    "http://localhost:5173",
+    "https://health-tracker-app-frontend.onrender.com"
+  ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
-app.use(helmet());
-app.use(express.json());
 
 // Request logging middleware
 app.use((req, res, next) => {
