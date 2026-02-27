@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 export default function DataForm({ onDataChange }) {
+  const API_BASE = import.meta.env.VITE_API_URL;
   const { token } = useContext(AuthContext);
 
   const [showForm, setShowForm] = useState(false);
@@ -31,7 +32,7 @@ export default function DataForm({ onDataChange }) {
     };
 
     try {
-      const res = await fetch("/api/data", {
+      const res = await fetch(`${API_BASE}/api/data`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -43,7 +44,7 @@ export default function DataForm({ onDataChange }) {
       if (res.status === 409) {
         const existing = await res.json();
         if (existing && confirm(`Date already exists. Do you wish to update this entry?`)) {
-          const putRes = await fetch(`/api/data/${existing._id}`, {
+          const putRes = await fetch(`${API_BASE}/api/data/${existing._id}`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",

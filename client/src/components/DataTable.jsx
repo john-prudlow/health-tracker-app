@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 export default function DataTable({ data, onDataChange }) {
+  const API_BASE = import.meta.env.VITE_API_URL;
   const { token } = useContext(AuthContext);
 
   const [editingId, setEditingId] = useState(null);
@@ -31,7 +32,7 @@ export default function DataTable({ data, onDataChange }) {
 
   const handleUpdate = async () => {
     try {
-      const putRes = await fetch(`/api/data/${editingId}`, {
+      const putRes = await fetch(`${API_BASE}/api/data/${editingId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
