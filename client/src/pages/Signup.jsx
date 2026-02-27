@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router";
 
 export default function Signup() {
+  const API_BASE = import.meta.env.VITE_API_URL;
   const { loginWithToken } = useAuth();
   const navigate = useNavigate();
 
@@ -22,7 +23,7 @@ export default function Signup() {
     setError("");
 
     try {
-      const res = await fetch("/api/auth/signup", {
+      const res = await fetch(`${API_BASE}/api/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form)
