@@ -10,7 +10,7 @@ const app = express();
 connectDatabase();
 
 // FORCE Render/Cloudflare to forward OPTIONS instead of auto‑handling it
-app.options('/*', (req, res) => {
+app.options(/.*/, (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "https://health-tracker-app-frontend.onrender.com");
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
