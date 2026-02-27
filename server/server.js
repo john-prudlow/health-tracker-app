@@ -10,7 +10,13 @@ const app = express();
 connectDatabase();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: "https://health-tracker-app-frontend.onrender.com",
+  credentials: true,
+}));
+// Handle preflight requests
+app.options("*", cors())
+
 app.use(helmet());
 app.use(express.json());
 
