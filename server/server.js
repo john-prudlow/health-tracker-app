@@ -45,6 +45,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/data', dataRoutes);
 
 const PORT = process.env.PORT ?? 3001;
+console.log("PORT IS: ", PORT);
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
