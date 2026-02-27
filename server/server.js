@@ -36,8 +36,9 @@ app.use(
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.status(200).send("Backend is alive");
+app.use((req, res, next) => {
+  console.log("METHOD:", req.method, "PATH:", req.path);
+  next();
 });
 
 app.use('/api/auth', require('./routes/authRoutes'));
