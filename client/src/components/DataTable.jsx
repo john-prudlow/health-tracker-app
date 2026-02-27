@@ -11,7 +11,7 @@ export default function DataTable({ data, onDataChange }) {
   const handleDelete = async (item) => {
     if (confirm(`Are you sure you want to delete data for "${item.date}"?`)) {
       try {
-        const res = await fetch(`/api/data/${item._id}`, {
+        const res = await fetch(`${API_BASE}/api/data/${item._id}`, {
           method: "DELETE",
           headers: {
             "Authorization": `Bearer ${token}`
