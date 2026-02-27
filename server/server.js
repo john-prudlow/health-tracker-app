@@ -36,6 +36,10 @@ app.use(
 
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.status(200).send("Backend is alive");
+});
+
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/data', require('./routes/dataRoutes'));
 
