@@ -85,7 +85,7 @@ export default function DataForm({ onDataChange }) {
         </button>
       ) : (
         <div className="health-data-form">
-          <h2>ENTER HEALTH DATA</h2>
+          <h3>ENTER HEALTH DATA</h3>
           <form onSubmit={handleSubmit} className="health-entry-form">
             <label htmlFor="date">Date (YYYY-MM-DD):</label>
             <input

@@ -8,6 +8,21 @@
     padding: 30px;
   }
   header .branding { margin-bottom: 12px;}
+  header nav {
+    align-items: center;
+  }
+  header nav ul.utility-menu {
+    display: flex;
+    border-top: 1px solid #fff;
+    flex-direction: column;
+    padding-top: 0.5rem;
+    align-items: center;
+    row-gap: 0.5rem;
+    order: 2;
+  }
+  header nav ul.menu {
+    order: 1;
+  }
   header nav .menu, footer nav .menu {
     flex-direction: column;
     align-items: center;

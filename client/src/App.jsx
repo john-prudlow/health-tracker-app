@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
 import { Routes, Route } from 'react-router'
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -7,6 +8,7 @@ import Homepage from './pages/Homepage'
 import HealthData from './pages/HealthData'
 import Trends from './pages/Trends'
 import Login from './pages/Login'
+import Signup from './pages/Signup'
 
 import { AuthContext } from './context/AuthContext'
 
@@ -49,9 +51,10 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Homepage />} />
-          <Route path="/health-data" element={<HealthData data={data} onDataChange={healthData} />} />
-          <Route path="/trends" element={<Trends data={data} onDataChange={healthData} />} />
+          <Route path="/health-data" element={<ProtectedRoute><HealthData data={data} onDataChange={healthData} /></ProtectedRoute>} />
+          <Route path="/trends" element={<ProtectedRoute><Trends data={data} onDataChange={healthData} /></ProtectedRoute>} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </main>
       <Footer />

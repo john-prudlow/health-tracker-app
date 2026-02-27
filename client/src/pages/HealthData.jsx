@@ -5,7 +5,7 @@ import DataTable from "../components/DataTable";
 export default function HealthData({data, onDataChange}) {
   return (
     <>
-      <h1>Health Data</h1>
+      <h2>Health Data</h2>
       <DataForm onDataChange={onDataChange} />
       <DataTable data={data} onDataChange={onDataChange} />
     </>

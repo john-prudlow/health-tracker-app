@@ -1,7 +1,7 @@
 // src/pages/Login.jsx
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 
 export default function Login() {
   const { login } = useContext(AuthContext);
@@ -17,7 +17,7 @@ export default function Login() {
 
     try {
       await login(username, password);
-      navigate("/"); // or /dashboard or /health-data
+      navigate("/");
     } catch (err) {
       setError(err.message);
     }
@@ -29,7 +29,7 @@ export default function Login() {
 
       {error && <p className="error">{error}</p>}
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="user-form">
         <input
           type="text"
           placeholder="Username"
@@ -45,6 +45,7 @@ export default function Login() {
         />
 
         <button type="submit">Login</button>
+        <p> Don’t have an account? <Link to="/signup">Sign up</Link> </p>
       </form>
     </div>
   );

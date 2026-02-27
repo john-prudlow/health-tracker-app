@@ -46,17 +46,38 @@ header {
   background: #121299;
   color: #fff;
   top: 0;
-  padding: 1.5rem 5rem;
+  padding: 1rem 5rem 1.5rem 5rem;
   align-items: center;
   justify-content: space-between;
   width: 100%;
 }
 
-header h1 {
+header h1, header h1 a {
+  color: #fff;
   font-size: 1.8rem;
   font-weight: 900;
   margin: 0;
   padding: 0;
+  text-decoration: none;
+}
+
+header nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  row-gap: 1rem;
+}
+
+header nav ul.utility-menu {
+  display: flex;
+}
+
+header nav ul.utility-menu li a {
+  color: #fff;
+  font-size: .85rem;
+  padding-bottom: 0.1rem;
+  text-decoration: none;
+  text-transform: uppercase;
 }
 
 header nav ul.menu {
@@ -65,12 +86,12 @@ header nav ul.menu {
 
 header nav ul.menu li a {
   color: #fff;
-  padding-bottom: 0.25rem;
+  padding-bottom: 0.1rem;
   text-decoration: none;
   text-transform: uppercase;
 }
 
-header nav ul.menu li a:hover {
+header nav ul.menu li a:hover, header nav ul.utility-menu li a:hover {
   border-bottom: 1px solid #fff;
 }
 
@@ -79,13 +100,17 @@ header nav ul.menu li a:hover {
 main {
   display: flex;
   flex-direction: column;
-  padding: 4rem 5rem;
+  padding: 4rem 5rem 7rem 5rem;
   align-items: center;
 }
 
-main h1 {
+main h2 {
   font-size: 2.7rem;
   text-transform: uppercase;
+}
+
+main h3 {
+  font-size: 1.8rem;
 }
 
 button {
@@ -102,6 +127,22 @@ button:hover {
   opacity: 0.75;
 }
 
+.login-links {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2.5rem;
+  align-items: center;
+  row-gap: 1rem;
+}
+
+.login-links button {
+  margin: 0;
+}
+
+.login-links button.home-signup {
+  background: hsl(170, 72%, 38%);
+}
+
 form.health-entry-form {
   border-top: 1px solid #999;
   border-bottom: 1px solid #999;
@@ -109,15 +150,20 @@ form.health-entry-form {
   padding: 0.75rem 0;
 }
 
-form.health-entry-form input {
+form.health-entry-form input, form.user-form input {
   display: block;
   margin-bottom: 0.75rem;
   width: 100%;
+  height: 2rem;
 }
 
-form.health-entry-form button {
+form.health-entry-form button, form.user-form button {
   display: block;
   margin: 0 auto;
+}
+
+form input[type="date"] {
+  cursor: pointer;
 }
 
 /*** Table styles ***/
@@ -202,6 +248,7 @@ footer {
   padding: 1rem 5rem;
   justify-content: center;
   width: 100%;
+  max-width: 1920px;
 }
 
 footer nav ul.menu {

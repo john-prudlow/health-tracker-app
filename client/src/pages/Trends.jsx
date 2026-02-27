@@ -5,8 +5,8 @@ import DataChart from "../components/DataChart";
 export default function Trends({data, onDataChange}) {
   return (
     <>
-      <h1>Trends</h1>
-      <h2>Track your progress</h2>
+      <h2>Trends</h2>
+      <h3>Track your progress</h3>
 
       <p>Here you can see the correlation between your health metrics and view your progress.</p>
       <section className="trend-table">
