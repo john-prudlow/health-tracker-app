@@ -6,35 +6,29 @@ const connectDatabase = require('./config/database');
 
 const app = express();
 
+// Connect to MongoDB database
 connectDatabase();
 
-// const allowedOrigins = [
-//   "http://localhost:5173",
-//   "https://health-tracker-app-frontend.onrender.com"
-// ];
-
-app.use(cors({
-  origin: true,
-  credentials: true
-}));
-
-app.use(
-  helmet({
-    crossOriginResourcePolicy: false,
-  })
-);
-
+// Middleware
+app.use(helmet());
+app.use(cors());
 app.use(express.json());
 
+// Request logging middleware
 app.use((req, res, next) => {
-  console.log("METHOD:", req.method, "PATH:", req.path);
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] ${req.method} ${req.url}`);
   next();
 });
 
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/data', require('./routes/dataRoutes'));
+// ROUTES
+const authRoutes = require('./routes/authRoutes');
+const dataRoutes = require('./routes/dataRoutes');
 
-const PORT = process.env.PORT ?? 3001;
+app.use('/api/auth', authRoutes);
+app.use('/api/data', dataRoutes);
+
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
