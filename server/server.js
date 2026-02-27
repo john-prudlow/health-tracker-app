@@ -10,14 +10,17 @@ const app = express();
 connectDatabase();
 
 // Middleware
+// Helmet FIRST, configured for CORS
+app.use(helmet({
+  crossOriginResourcePolicy: false,
+  crossOriginOpenerPolicy: false,
+  crossOriginEmbedderPolicy: false,
+}));
+// Then CORS
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://health-tracker-app-frontend.onrender.com"
-  ],
+  origin: "https://health-tracker-app-frontend.onrender.com",
   credentials: true,
 }));
-app.use(helmet());
 app.use(express.json());
 
 // Request logging middleware
