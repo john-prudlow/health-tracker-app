@@ -11,6 +11,8 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  console.log("API URL:", import.meta.env.VITE_API_URL);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
