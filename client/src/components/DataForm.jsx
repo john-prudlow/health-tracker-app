@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
-export default function DataForm({onDataChange}) {
-  const [ showForm, setShowForm ] = useState(false);
+export default function DataForm({ onDataChange }) {
+  const { token } = useContext(AuthContext);
+
+  const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     date: "",
     steps: "",
@@ -28,43 +31,58 @@ export default function DataForm({onDataChange}) {
     };
 
     try {
-      const res = await fetch("http://localhost:3001/api/data", {
+      const res = await fetch("/api/data", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
         body: JSON.stringify(payload)
       });
 
       if (res.status === 409) {
         const existing = await res.json();
         if (existing && confirm(`Date already exists. Do you wish to update this entry?`)) {
-          const putRes = await fetch(`http://localhost:3001/api/data/${existing._id}`, {
+          const putRes = await fetch(`/api/data/${existing._id}`, {
             method: "PUT",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`
+            },
             body: JSON.stringify(payload)
           });
+
           if (!putRes.ok) {
             console.error("Failed to update entry");
             return;
           }
+
           const updated = await putRes.json();
           if (onDataChange) onDataChange(updated);
+
           setFormData({ date: "", steps: "", sleep: "", weight: "" });
         }
         return;
       }
+
       const stored = await res.json();
       if (onDataChange) onDataChange(stored);
+
       setFormData({ date: "", steps: "", sleep: "", weight: "" });
+
     } catch (err) {
       console.error("Failed to store data:", err);
     }
+
     setShowForm(false);
   };
 
   return (
     <>
-      { !showForm ? (
-        <button className="add-data-btn" onClick={() => { setShowForm(true)}}>Add Health Entry</button>
+      {!showForm ? (
+        <button className="add-data-btn" onClick={() => setShowForm(true)}>
+          Add Health Entry
+        </button>
       ) : (
         <div className="health-data-form">
           <h2>ENTER HEALTH DATA</h2>
@@ -77,6 +95,7 @@ export default function DataForm({onDataChange}) {
               onChange={handleChange}
               required
             />
+
             <label htmlFor="steps">Steps:</label>
             <input
               id="steps"
@@ -85,6 +104,7 @@ export default function DataForm({onDataChange}) {
               onChange={handleChange}
               required
             />
+
             <label htmlFor="sleep">Sleep (hours):</label>
             <input
               id="sleep"
@@ -94,6 +114,7 @@ export default function DataForm({onDataChange}) {
               onChange={handleChange}
               required
             />
+
             <label htmlFor="weight">Weight (lbs):</label>
             <input
               id="weight"
@@ -103,11 +124,11 @@ export default function DataForm({onDataChange}) {
               onChange={handleChange}
               required
             />
+
             <button type="submit">Submit Data</button>
-            {/* <button type="button" onClick={onCancel}>Cancel</button> */}
           </form>
         </div>
       )}
     </>
-  )
+  );
 }

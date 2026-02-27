@@ -1,37 +1,57 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
-export default function DataTable({data, onDataChange}) {
+export default function DataTable({ data, onDataChange }) {
+  const { token } = useContext(AuthContext);
+
   const [editingId, setEditingId] = useState(null);
   const [editValues, setEditValues] = useState({});
 
   const handleDelete = async (item) => {
     if (confirm(`Are you sure you want to delete data for "${item.date}"?`)) {
       try {
-        const res = await fetch(`http://localhost:3001/api/data/${item._id}`, {
-            method: "DELETE"
+        const res = await fetch(`/api/data/${item._id}`, {
+          method: "DELETE",
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
         });
+
+        if (!res.ok) {
+          console.error("Failed to delete entry");
+          return;
+        }
+
         if (onDataChange) onDataChange();
       } catch (err) {
         console.error("Failed to delete data:", err);
       }
     }
-  }
+  };
+
   const handleUpdate = async () => {
     try {
-      const putRes = await fetch(`http://localhost:3001/api/data/${editingId}`, {
+      const putRes = await fetch(`/api/data/${editingId}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
         body: JSON.stringify(editValues)
       });
+
       if (!putRes.ok) {
-        console.error("Failed to update entry"); return;
+        console.error("Failed to update entry");
+        return;
       }
+
       if (onDataChange) onDataChange();
       setEditingId(null);
     } catch (err) {
       console.error("Failed to update data:", err);
     }
-  }
+  };
+
   const editFields = (item) => {
     setEditingId(item._id);
     setEditValues({
@@ -41,19 +61,21 @@ export default function DataTable({data, onDataChange}) {
       weight: item.weight
     });
   };
+
   return (
     <section className="table-container">
       <table>
         <thead>
-            <tr>
-              <th></th>
-              <th>Steps</th>
-              <th>Sleep</th>
-              <th>Weight</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
+          <tr>
+            <th></th>
+            <th>Steps</th>
+            <th>Sleep</th>
+            <th>Weight</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
           {data.map(item => {
             const isEditing = editingId === item._id;
 
@@ -72,6 +94,7 @@ export default function DataTable({data, onDataChange}) {
                     item.date
                   )}
                 </td>
+
                 <td className="steps-cell">
                   {isEditing ? (
                     <input
@@ -85,6 +108,7 @@ export default function DataTable({data, onDataChange}) {
                     item.steps
                   )}
                 </td>
+
                 <td className="sleep-cell">
                   {isEditing ? (
                     <input
@@ -98,6 +122,7 @@ export default function DataTable({data, onDataChange}) {
                     item.sleep
                   )}
                 </td>
+
                 <td className="weight-cell">
                   {isEditing ? (
                     <input
@@ -111,11 +136,19 @@ export default function DataTable({data, onDataChange}) {
                     item.weight
                   )}
                 </td>
+
                 <td className="change-item">
                   {isEditing ? (
                     <>
-                      <button className="save-changes" onClick={handleUpdate}>SAVE</button>
-                      <button className="cancel-changes" onClick={() => setEditingId(null)}>CANCEL</button>
+                      <button className="save-changes" onClick={handleUpdate}>
+                        SAVE
+                      </button>
+                      <button
+                        className="cancel-changes"
+                        onClick={() => setEditingId(null)}
+                      >
+                        CANCEL
+                      </button>
                     </>
                   ) : (
                     <i
@@ -123,6 +156,7 @@ export default function DataTable({data, onDataChange}) {
                       onClick={() => editFields(item)}
                     ></i>
                   )}
+
                   <i
                     className="fa-solid fa-trash"
                     onClick={() => handleDelete(item)}
@@ -131,8 +165,8 @@ export default function DataTable({data, onDataChange}) {
               </tr>
             );
           })}
-          </tbody>
+        </tbody>
       </table>
     </section>
-  )
+  );
 }

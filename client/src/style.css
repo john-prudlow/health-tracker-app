@@ -194,7 +194,7 @@ table td.sleep-cell input, table td.weight-cell input {
 /*** Footer styles ***/
 
 footer {
-  position: sticky;
+  position: fixed;
   bottom: 0;
   display: flex;
   background: #333;

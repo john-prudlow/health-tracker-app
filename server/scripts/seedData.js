@@ -1,8 +1,14 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+
+const User = require('../models/User');
 const Data = require('../models/Data');
 
-const data = [
+// ----------------------
+// USER 01 DATA (2026)
+// ----------------------
+const user01Data = [
   { "date": "2026-01-01", "steps": 14211, "sleep": 6.8, "weight": 185 },
   { "date": "2026-01-02", "steps": 12844, "sleep": 5.9, "weight": 184.6 },
   { "date": "2026-01-03", "steps": 13772, "sleep": 6.1, "weight": 184.2 },
@@ -33,24 +39,82 @@ const data = [
   { "date": "2026-01-28", "steps": 14833, "sleep": 7.2, "weight": 175.1 },
   { "date": "2026-01-29", "steps": 13299, "sleep": 5.8, "weight": 175 },
   { "date": "2026-01-30", "steps": 14044, "sleep": 6.6, "weight": 175 }
-]
+];
 
-// Seed the database with data
+// ----------------------
+// USER 02 DATA (2026)
+// ----------------------
+const user02Data = [
+  {"date":"2026-02-01","steps":15888,"sleep":7.1,"weight":177},
+  {"date":"2026-02-02","steps":12111,"sleep":5.6,"weight":176.7},
+  {"date":"2026-02-03","steps":16555,"sleep":8.2,"weight":176.4},
+  {"date":"2026-02-04","steps":13999,"sleep":6.3,"weight":176.1},
+  {"date":"2026-02-05","steps":11222,"sleep":7.9,"weight":175.8},
+  {"date":"2026-02-06","steps":16888,"sleep":5.4,"weight":175.5},
+  {"date":"2026-02-07","steps":14777,"sleep":8.7,"weight":175.2},
+  {"date":"2026-02-08","steps":13333,"sleep":6.8,"weight":174.9},
+  {"date":"2026-02-09","steps":11999,"sleep":5.2,"weight":174.6},
+  {"date":"2026-02-10","steps":16666,"sleep":8.4,"weight":174.3},
+  {"date":"2026-02-11","steps":14222,"sleep":7.0,"weight":174},
+  {"date":"2026-02-12","steps":12888,"sleep":6.1,"weight":173.7},
+  {"date":"2026-02-13","steps":11333,"sleep":5.8,"weight":173.4},
+  {"date":"2026-02-14","steps":16900,"sleep":8.9,"weight":173.1},
+  {"date":"2026-02-15","steps":15111,"sleep":7.3,"weight":172.8},
+  {"date":"2026-02-16","steps":13666,"sleep":6.5,"weight":172.5},
+  {"date":"2026-02-17","steps":11000,"sleep":5.1,"weight":172.2},
+  {"date":"2026-02-18","steps":16777,"sleep":8.6,"weight":171.9},
+  {"date":"2026-02-19","steps":14444,"sleep":7.4,"weight":171.6},
+  {"date":"2026-02-20","steps":13000,"sleep":6.0,"weight":171.3},
+  {"date":"2026-02-21","steps":11555,"sleep":5.7,"weight":171},
+  {"date":"2026-02-22","steps":16222,"sleep":8.1,"weight":170.7},
+  {"date":"2026-02-23","steps":14999,"sleep":7.2,"weight":170.4},
+  {"date":"2026-02-24","steps":13555,"sleep":6.6,"weight":170.1},
+  {"date":"2026-02-25","steps":11888,"sleep":5.3,"weight":169.8},
+  {"date":"2026-02-26","steps":16800,"sleep":8.8,"weight":169.5},
+  {"date":"2026-02-27","steps":15222,"sleep":7.5,"weight":169.2},
+  {"date":"2026-02-28","steps":13777,"sleep":6.4,"weight":168.9},
+  {"date":"2026-03-01","steps":11111,"sleep":5.9,"weight":168.6},
+  {"date":"2026-03-02","steps":16000,"sleep":8.3,"weight":168.3}
+];
+
+// ----------------------
+// SEED FUNCTION
+// ----------------------
 const seedDatabase = async () => {
   try {
     console.log('Connecting to MongoDB...');
     await mongoose.connect(process.env.MONGODB_URI);
     console.log('Connected successfully!');
 
-    console.log('Clearing existing data...');
+    console.log('Clearing existing users & data...');
+    await User.deleteMany({});
     await Data.deleteMany({});
 
-    console.log('Inserting new data...');
-    const inserteddata = await Data.insertMany(data);
+    console.log('Creating users...');
+    const passwordHash1 = await bcrypt.hash("pass123", 10);
+    const passwordHash2 = await bcrypt.hash("pass456", 10);
 
-    console.log(`Successfully seeded ${inserteddata.length} data!`);
-    console.log('\nSample data data:');
-    console.log(`Steps: ${inserteddata[0].steps}, Sleep: ${inserteddata[0].sleep}, Weight: ${inserteddata[0].weight}`);
+    const user01 = await User.create({
+      username: "user01",
+      passwordHash: passwordHash1
+    });
+
+    const user02 = await User.create({
+      username: "user02",
+      passwordHash: passwordHash2
+    });
+
+    console.log('Users created:', user01.username, user02.username);
+
+    console.log('Preparing health data...');
+    const user01Docs = user01Data.map(d => ({ ...d, userId: user01._id }));
+    const user02Docs = user02Data.map(d => ({ ...d, userId: user02._id }));
+
+    console.log('Inserting health data...');
+    const inserted = await Data.insertMany([...user01Docs, ...user02Docs]);
+
+    console.log(`Successfully seeded ${inserted.length} documents!`);
+    console.log(`Sample: ${inserted[0].date} — ${inserted[0].steps} steps`);
 
     process.exit(0);
   } catch (error) {
