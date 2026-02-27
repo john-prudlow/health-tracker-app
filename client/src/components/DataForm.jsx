@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-export default function DataForm({onDataStored}) {
+export default function DataForm({onDataChange}) {
+  const [ showForm, setShowForm ] = useState(false);
   const [formData, setFormData] = useState({
     date: "",
     steps: "",
@@ -46,60 +47,67 @@ export default function DataForm({onDataStored}) {
             return;
           }
           const updated = await putRes.json();
-          if (onDataStored) onDataStored(updated);
+          if (onDataChange) onDataChange(updated);
           setFormData({ date: "", steps: "", sleep: "", weight: "" });
         }
         return;
       }
       const stored = await res.json();
-      if (onDataStored) onDataStored(stored);
+      if (onDataChange) onDataChange(stored);
       setFormData({ date: "", steps: "", sleep: "", weight: "" });
     } catch (err) {
       console.error("Failed to store data:", err);
     }
+    setShowForm(false);
   };
 
   return (
-    <div className="health-data-form">
-      <h2>ENTER HEALTH DATA</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="date">Date (YYYY-MM-DD):</label>
-        <input
-          id="date"
-          type="date"
-          value={formData.date}
-          onChange={handleChange}
-          required
-        />
-        <label htmlFor="steps">Steps:</label>
-        <input
-          id="steps"
-          type="number"
-          value={formData.steps}
-          onChange={handleChange}
-          required
-        />
-        <label htmlFor="sleep">Sleep:</label>
-        <input
-          id="sleep"
-          type="number"
-          step="0.1"
-          value={formData.sleep}
-          onChange={handleChange}
-          required
-        />
-        <label htmlFor="weight">Weight:</label>
-        <input
-          id="weight"
-          type="number"
-          step="0.1"
-          value={formData.weight}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit">Submit Data</button>
-        {/* <button type="button" onClick={onCancel}>Cancel</button> */}
-      </form>
-    </div>
+    <>
+      { !showForm ? (
+        <button className="add-data-btn" onClick={() => { setShowForm(true)}}>Add Health Entry</button>
+      ) : (
+        <div className="health-data-form">
+          <h2>ENTER HEALTH DATA</h2>
+          <form onSubmit={handleSubmit} className="health-entry-form">
+            <label htmlFor="date">Date (YYYY-MM-DD):</label>
+            <input
+              id="date"
+              type="date"
+              value={formData.date}
+              onChange={handleChange}
+              required
+            />
+            <label htmlFor="steps">Steps:</label>
+            <input
+              id="steps"
+              type="number"
+              value={formData.steps}
+              onChange={handleChange}
+              required
+            />
+            <label htmlFor="sleep">Sleep (hours):</label>
+            <input
+              id="sleep"
+              type="number"
+              step="0.1"
+              value={formData.sleep}
+              onChange={handleChange}
+              required
+            />
+            <label htmlFor="weight">Weight (lbs):</label>
+            <input
+              id="weight"
+              type="number"
+              step="0.1"
+              value={formData.weight}
+              onChange={handleChange}
+              required
+            />
+            <button type="submit">Submit Data</button>
+            {/* <button type="button" onClick={onCancel}>Cancel</button> */}
+          </form>
+        </div>
+      )}
+    </>
   )
 }

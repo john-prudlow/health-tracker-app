@@ -1,0 +1,49 @@
+@media screen and (max-width: 800px) {
+  body {
+    font-size: 16px;
+  }
+  header {
+    position: relative;
+    flex-direction: column;
+    padding: 30px;
+  }
+  header .branding { margin-bottom: 12px;}
+  header nav .menu, footer nav .menu {
+    flex-direction: column;
+    align-items: center;
+    row-gap: 12px;
+  }
+  main {
+    padding: 45px 30px;
+  }
+  .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+  table {
+    width: 100%;
+  }
+  table th, table td, table td input {
+    font-size: .9rem;
+  }
+  table td.sleep-cell input, table td.weight-cell input {
+    width: 9ch;
+  }
+  .trend-table {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+  .trend-chart {
+    width: 100%;
+  }
+  footer {
+    position: relative;
+    padding: 30px;
+  }
+  footer nav .menu {
+    flex-direction: column;
+    align-items: center;
+  }
+}

@@ -2,12 +2,144 @@
   box-sizing: border-box;
 }
 
+html {
+  background: #ddd;
+}
+
 body {
+  background: #fff;
+  letter-spacing: 0.1rem;
+  font-family: 'Roboto', sans-serif;
+  font-size: 17px;
   margin: 0 auto;
   max-width: 1920px;
+  min-height: 100vh;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  list-style-type: none;
+  list-style-image: none;
+  margin: 0 20px;
+}
+
+h1, h2, h3, h4, h5 {
+  letter-spacing: 0;
+  font-family: 'Oswald', sans-serif;
+  margin: 0.3rem 0;
+  padding: 0;
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+/*** Header styles ***/
+
+header {
+  position: sticky;
+  display: flex;
+  background: #121299;
+  color: #fff;
+  top: 0;
+  padding: 1.5rem 5rem;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+header h1 {
+  font-size: 1.8rem;
+  font-weight: 900;
+  margin: 0;
+  padding: 0;
+}
+
+header nav ul.menu {
+  display: flex;
+}
+
+header nav ul.menu li a {
+  color: #fff;
+  padding-bottom: 0.25rem;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+header nav ul.menu li a:hover {
+  border-bottom: 1px solid #fff;
+}
+
+/*** Main Content styles ***/
+
+main {
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 5rem;
+  align-items: center;
+}
+
+main h1 {
+  font-size: 2.7rem;
+  text-transform: uppercase;
+}
+
+button {
+  cursor: pointer;
+  background: #121299;
+  color: #fff;
+  border: 0;
+  font-size: 1.1rem;
+  margin: 0.75rem 0;
+  padding: 0.5rem .75rem;
+}
+
+button:hover {
+  opacity: 0.75;
+}
+
+form.health-entry-form {
+  border-top: 1px solid #999;
+  border-bottom: 1px solid #999;
+  margin: 1.5rem 0;
+  padding: 0.75rem 0;
+}
+
+form.health-entry-form input {
+  display: block;
+  margin-bottom: 0.75rem;
+  width: 100%;
+}
+
+form.health-entry-form button {
+  display: block;
+  margin: 0 auto;
 }
 
 /*** Table styles ***/
+
+table input {
+  font-size: 1rem;
+}
+
+table .change-item {
+  display: flex;
+  gap: .6rem;
+}
+
+table .change-item i {
+  padding: 0.25rem 0;
+}
+
+table button {
+  font-size: 0.9rem;
+  margin: 0;
+  padding: 0.25rem .5rem;
+}
 
 table {
   border-collapse: collapse;
@@ -19,10 +151,71 @@ table th, table td {
   padding: 5px 7px;
 }
 
+table td.date-cell input {
+  width: 15ch;
+}
+
+table td.steps-cell input {
+  width: 10ch;
+}
+
+table td.sleep-cell input, table td.weight-cell input {
+  width: 7ch;
+}
+
 .change-item i {
   cursor: pointer;
 }
 
 .change-item .save-changes, .change-item .cancel-changes {
   cursor: pointer;
+}
+
+.trend-table {
+  display: flex;
+  border-bottom: 1px solid #999;
+  width: 50%;
+  height: 250px;
+  overflow-y: scroll;
+  justify-content: center;
+}
+
+.trend-chart {
+  width: 60%;
+}
+
+.trend-chart .chart-buttons {
+  display: flex;
+  margin: 1rem 0;
+  gap: 8px;
+  justify-content: center;
+}
+
+/*** Footer styles ***/
+
+footer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  background: #333;
+  color: #fff;
+  padding: 1rem 5rem;
+  justify-content: center;
+  width: 100%;
+}
+
+footer nav ul.menu {
+  display: flex;
+}
+
+footer nav ul.menu li a {
+  color: #fff;
+  font-size: 0.9rem;
+  padding-bottom: 0.25rem;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+footer nav ul.menu li a:hover {
+  border-bottom: 1px solid #fff;
 }
