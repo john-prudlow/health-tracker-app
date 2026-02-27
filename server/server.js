@@ -33,6 +33,14 @@ app.use((req, res, next) => {
 const authRoutes = require('./routes/authRoutes');
 const dataRoutes = require('./routes/dataRoutes');
 
+// Preflight handlers for Express 5 (NO WILDCARDS)
+app.options("/api/auth/login", cors());
+app.options("/api/auth/signup", cors());
+app.options("/api/auth", cors());
+
+app.options("/api/data", cors());
+app.options("/api/data/:id", cors());
+
 app.use('/api/auth', authRoutes);
 app.use('/api/data', dataRoutes);
 
