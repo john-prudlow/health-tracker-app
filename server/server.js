@@ -8,23 +8,13 @@ const app = express();
 
 connectDatabase();
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://health-tracker-app-frontend.onrender.com"
-];
+// const allowedOrigins = [
+//   "http://localhost:5173",
+//   "https://health-tracker-app-frontend.onrender.com"
+// ];
 
 app.use(cors({
-  origin: function (origin, callback) {
-    console.log("Incoming Origin:", origin);
-
-    if (!origin) return callback(null, true); // allow server-to-server / curl
-
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+  origin: true,
   credentials: true
 }));
 
