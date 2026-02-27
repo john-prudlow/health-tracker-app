@@ -6,26 +6,10 @@ const connectDatabase = require('./config/database');
 
 const app = express();
 
-// Connect to MongoDB database
+// Connect to MongoDB
 connectDatabase();
 
-// FORCE Render/Cloudflare to forward OPTIONS instead of auto‑handling it
-app.options(/.*/, (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://health-tracker-app-frontend.onrender.com");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  return res.sendStatus(200);
-});
-
-// Helmet FIRST, configured for CORS compatibility
-app.use(helmet({
-  crossOriginResourcePolicy: false,
-  crossOriginOpenerPolicy: false,
-  crossOriginEmbedderPolicy: false,
-}));
-
-// CORS middleware
+// --- CORS MIDDLEWARE (must run before routes) ---
 app.use(cors({
   origin: "https://health-tracker-app-frontend.onrender.com",
   credentials: true,
@@ -33,10 +17,30 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
+// --- EXPLICIT OPTIONS HANDLERS (REQUIRED FOR RENDER/CLOUDFLARE) ---
+const sendPreflight = (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "https://health-tracker-app-frontend.onrender.com");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.sendStatus(200);
+};
+
+// Cloudflare will forward these because they are literal prefixes
+app.options("/api/auth/*", sendPreflight);
+app.options("/api/data/*", sendPreflight);
+
+// --- HELMET (after CORS) ---
+app.use(helmet({
+  crossOriginResourcePolicy: false,
+  crossOriginOpenerPolicy: false,
+  crossOriginEmbedderPolicy: false,
+}));
+
 // JSON parsing
 app.use(express.json());
 
-// Request logging middleware
+// Request logging
 app.use((req, res, next) => {
   const timestamp = new Date().toISOString();
   console.log(`[${timestamp}] ${req.method} ${req.url}`);
@@ -50,6 +54,7 @@ const dataRoutes = require('./routes/dataRoutes');
 app.use('/api/auth', authRoutes);
 app.use('/api/data', dataRoutes);
 
+// START SERVER
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
