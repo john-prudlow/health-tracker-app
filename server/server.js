@@ -44,7 +44,7 @@ app.options("/api/data/:id", cors());
 app.use('/api/auth', authRoutes);
 app.use('/api/data', dataRoutes);
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT ?? 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
