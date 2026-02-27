@@ -18,11 +18,6 @@ app.use(cors({
   credentials: true
 }));
 
-app.options("*", cors({
-  origin: allowedOrigins,
-  credentials: true
-}));
-
 app.use(
   helmet({
     crossOriginResourcePolicy: false,
