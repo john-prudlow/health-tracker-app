@@ -11,10 +11,13 @@ connectDatabase();
 
 // Middleware
 app.use(cors({
-  origin: 'https://health-tracker-app-frontend.onrender.com', // Only allow this domain
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
-  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
-  credentials: true // Allow cookies/auth headers
+  origin: [
+    "http://localhost:5173",
+    "https://health-tracker-app-frontend.onrender.com"
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
 }));
 app.use(helmet());
 app.use(express.json());
