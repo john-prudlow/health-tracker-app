@@ -11,8 +11,8 @@ export default function Homepage() {
       <div className="login-links">
         {!user ? (
           <>
-            <Link to="/login"><button>Login</button></Link>
             <Link to="/signup"><button className="home-signup">Sign Up</button></Link>
+            <Link to="/login"><button>Login</button></Link>
           </>
         ) : (
           <Link to="/login" onClick={logout}><button>Logout</button></Link>
