@@ -14,7 +14,7 @@ React web app to track health data and display correlations
 - Health Data
   - Form
   - Table
-- DataTrends
+- Data Trends
   - Table
   - Chart
 - Login (Form)
