@@ -11,10 +11,10 @@ React web app to track health data and display correlations
 ## Routes
 
 - Homepage
-- Health (Data)
+- Health Data
   - Form
   - Table
-- Trends
+- DataTrends 
 - Login
 - Signup
 
@@ -23,6 +23,6 @@ React web app to track health data and display correlations
 - Homepage gives an introduction (Login / Signup / Logout)
 - Login / Signup
   - Signup for an account or login if you already have on
-- Health (Health Data) gives a view of your health data entries in a table and a form for posting new entries to your account
-- Trends contains health data in the table with a scrollable view and a chart with the three metrics underneath to show correlation
+- Health Data gives a view of your health data entries in a table and a form for posting new entries to your account
+- Data Trends contains health data in the table with a scrollable view and a chart with the three metrics underneath to show correlation
   - Click on the buttons for each metric to hide metrics for a less crowded view of the data
