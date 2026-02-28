@@ -7,6 +7,7 @@ export default function Homepage() {
     <>
       <h2>Health Tracker Plus</h2>
       <h3>Welcome to you Health Tracking Base Station</h3>
+      <p>Ready to start your journey?</p>
       <div className="login-links">
         {!user ? (
           <>
